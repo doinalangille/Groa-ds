@@ -248,13 +248,32 @@ class MovieUtility(object):
     # ------- End Private Methods -------
 
     # ------- Start Public Methods -------
+    def add_rating(self, payload: RatingInput):
+        query = """
+        INSERT INTO user_ratings
+        (user_id, movie_id, rating, date, source)
+        VALUES (%s, %s, %s, %s, %s);
+        """
+        self.__run_query(
+            query, 
+            params=(
+                payload.user_id, 
+                payload.movie_id, 
+                payload.movie_id,
+                datetime.now(),
+                "groa"),
+            commit=True,
+            fetch="none"
+        )
+        return "Success"
+
     def create_movie_list(self, payload: CreateListInput):
         """ Creates a MovieList """
         query = """INSERT INTO movie_lists
         (user_id, name, private) VALUES (%s, %s, %s) RETURNING list_id;"""
         list_id = self.__run_query(
             query,
-            (payload.user_id, payload.name, payload.private),
+            params=(payload.user_id, payload.name, payload.private),
             commit=True)
         return {
             "list_id": list_id,
