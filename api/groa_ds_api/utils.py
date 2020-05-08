@@ -255,10 +255,10 @@ class MovieUtility(object):
         VALUES (%s, %s, %s, %s, %s);
         """
         self.__run_query(
-            query, 
+            query,
             params=(
-                payload.user_id, 
-                payload.movie_id, 
+                payload.user_id,
+                payload.movie_id,
                 payload.movie_id,
                 datetime.now(),
                 "groa"),
@@ -418,7 +418,7 @@ class MovieUtility(object):
         return {
             "data": self.__get_JSON(result_df)
         }
-    
+
     def get_recent_recommendations(self, user_id: int = None):
         """ Grabs the movies of recent recommendations from our API """
         query = """
@@ -450,7 +450,7 @@ class MovieUtility(object):
             )
             if len(movie_ids) > 0:
                 explore_lists = [self.get_similar_movies(SimInput(movie_id=elem[0], num_movies=10))
-                    for elem in movie_ids]
+                                 for elem in movie_ids]
             return {
                 "data": rec_json,
                 "lists": explore_lists

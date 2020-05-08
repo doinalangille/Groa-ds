@@ -80,6 +80,6 @@ class ExploreOutput(BaseModel):
 
 
 class RatingInput(BaseModel):
-    movie_id: str 
+    movie_id: str
     user_id: int
-    rating: float 
+    rating: float

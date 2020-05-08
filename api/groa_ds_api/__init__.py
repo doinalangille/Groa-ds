@@ -59,20 +59,20 @@ def create_app():
         today = datetime.today().strftime('%Y-%m-%d')
         cache.delete("explore"+today)
         return result
-    
+
     @app.get("/recommendations/interaction/{rec_id}/{movie_id}")
     async def interact_with_rec(rec_id: int, movie_id: str):
-        # could try to cleverly do this when 
-        # the similar-movies route is hit once 
+        # could try to cleverly do this when
+        # the similar-movies route is hit once
         # web team incorperates because if they are requesting that
         # it means they could be interacting with it from the recs page
         # it would mean though that the web team would need to pass
-        # an additional param of whether the referer was the recs page or 
+        # an additional param of whether the referer was the recs page or
         # not (defaulted to not)
         # here only changing one thing:
         # 1. change interaction column in recommendations_movies to true
         return "need to implement"
-    
+
     @app.post("/rating")
     async def rate_recommendations(payload: RatingInput):
         # here we need to save two things to the DB
@@ -134,7 +134,7 @@ def create_app():
         result = predictor.get_service_providers(movie_id)
         cache.set("prov"+movie_id, pickle.dumps(result))
         return result
-    
+
     @app.get("/explore", response_model=ExploreOutput)
     async def explore():
         """
@@ -151,10 +151,10 @@ def create_app():
         result = predictor.get_recent_recommendations()
         cache.set("explore"+today, pickle.dumps(result))
         return result
-    
+
     @app.get("/explore/{user_id}")
     async def explore_user(user_id: int):
-        # the lists work to a degree but still need a title 
+        # the lists work to a degree but still need a title
         result = cache.get("explore"+str(user_id))
         if result is not None:
             result = pickle.loads(result)
